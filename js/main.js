@@ -28,4 +28,3 @@ function getMaxLenght (textExample, max) {
 const text = 'Задание №2. Нужно больше функций.';
 
 getMaxLenght (text, 35);
-getMaxLenght (text, 15);
