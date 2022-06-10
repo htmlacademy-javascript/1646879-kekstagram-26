@@ -1,7 +1,7 @@
 // Функция, возвращающая случайное целое число из переданного диапазона включительно.
 
 function getRandom (min, max) {
-  if (min >= max || min < 0 || max <= 0) {
+  if (min >= max) {
     throw new Error('Диапазон включает только положительные числа. Число "от" не может быть больше или равно числу "до".');
   }
 
@@ -18,13 +18,13 @@ getRandom (0, 6);
 
 function getMaxLenght (textExample, max) {
   if (textExample.length <= max) {
-    throw new Error(`${textExample} \nТекст не превышает ${max} символов`);
+    return true;
   }
   else {
-    throw new Error(`${textExample.slice(0, max)}... \nТекст не может превышать ${max} символов`);
+    return false;
   }
 }
 
-const text = 'Задание №2. Нужно больше функций.';
+const TEXT = 'Задание №2. Нужно больше функций.';
 
-getMaxLenght (text, 35);
+getMaxLenght (TEXT, 35);
