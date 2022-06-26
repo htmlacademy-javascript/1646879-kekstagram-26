@@ -34,12 +34,12 @@ const VALUE = 25;
 const MIN_AVATAR_VALUE = 1;
 const MAX_AVATAR_VALUE = 6;
 
-const MESSAGE = [
+const MESSAGES = [
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
 ];
 
-const NAME = [
+const NAMES = [
   'Кузьма',
   'Барсик',
   'Рыжик',
@@ -50,7 +50,7 @@ const NAME = [
   'Жора',
 ];
 
-const DESCRIPTION = [
+const DESCRIPTIONS = [
   'мур мяу',
   'а я все чаще замечаю',
   'на чиле на раслабоне',
@@ -63,29 +63,33 @@ const DESCRIPTION = [
 
 const getRandomArrayElement = (elements) => elements[getRandom (0, elements.length - 1)];
 
+const createArrayId = Array.from({length: VALUE}, (value, i) => i+1);
+const createArrayUrl = Array.from({length: VALUE}, (value, i) => i+1);
+
+const getRandomNumber = (array) => array.splice(Math.random()*array.length, 1)[0];
 
 const createComment = (element, index) => {
-  const creatValueAvatar = () => getRandom (MIN_AVATAR_VALUE, MAX_AVATAR_VALUE);
+  const createValueAvatar = () => getRandom (MIN_AVATAR_VALUE, MAX_AVATAR_VALUE);
 
   return {
     id: index,
-    avatar: `img/avatar-${creatValueAvatar()}.svg`,
-    message: getRandomArrayElement(MESSAGE),
-    name: getRandomArrayElement(NAME),
+    avatar: `img/avatar-${createValueAvatar()}.svg`,
+    message: getRandomArrayElement(MESSAGES),
+    name: getRandomArrayElement(NAMES),
   };
 };
 
 const getCommentsArray = () => Array.from({length:getRandom (0, 20)}, createComment);
 
-const creatArray = (elemet, index) => ({
-  id: index,
-  url: `photos/${index+1}.jpg`,
-  description: getRandomArrayElement(DESCRIPTION),
+const createArray = () => ({
+  id: getRandomNumber(createArrayId),
+  url: `photos/${getRandomNumber(createArrayUrl)}.jpg`,
+  description: getRandomArrayElement(DESCRIPTIONS),
   likes: getRandom (1, 200),
   comments: getCommentsArray(),
 });
 
-const getArray = Array.from({length: VALUE}, creatArray);
+const getArray = Array.from({length: VALUE}, createArray);
 
 const lint = () => getArray;
 
