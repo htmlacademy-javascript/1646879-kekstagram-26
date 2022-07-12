@@ -4,6 +4,8 @@ const VALUE = 25;
 
 const MIN_AVATAR_VALUE = 1;
 const MAX_AVATAR_VALUE = 6;
+const MIN_COMMENT_VALUE = 0;
+const MAX_COMMENT_VALUE = 6;
 
 const MESSAGES = [
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -50,7 +52,7 @@ const createComment = (element, index) => {
   };
 };
 
-const getCommentsArray = () => Array.from({length:getRandom (0, 20)}, createComment);
+const getCommentsArray = () => Array.from({length:getRandom (MIN_COMMENT_VALUE, MAX_COMMENT_VALUE)}, createComment);
 
 const createArray = () => ({
   id: getRandomNumber(createArrayId),
