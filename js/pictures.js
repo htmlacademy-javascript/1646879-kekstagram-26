@@ -1,13 +1,11 @@
 import { getArray } from './data.js';
+import { showBigPicture } from './pictures-popup.js';
 
 const picturesSection = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const pictureFragment = document.createDocumentFragment();
 
-
-const pictures = getArray;
-
-pictures.forEach(({url, description, comments, likes}) => {
+getArray.forEach(({url, description, comments, likes}) => {
   const pictureElement = pictureTemplate.cloneNode(true);
 
   pictureElement.querySelector('.picture__img').src = url;
@@ -15,8 +13,11 @@ pictures.forEach(({url, description, comments, likes}) => {
   pictureElement.querySelector('.picture__comments').textContent = comments.length;
   pictureElement.querySelector('.picture__likes').textContent = likes;
 
+
   pictureFragment.appendChild(pictureElement);
+  pictureElement.addEventListener('click', () => {
+    showBigPicture({url, description, comments, likes});
+  });
 });
 
 picturesSection.appendChild(pictureFragment);
-

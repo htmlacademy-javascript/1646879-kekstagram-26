@@ -29,4 +29,6 @@ const TEXT = 'Задание №2. Нужно больше функций.';
 
 getMaxLenght (TEXT, 35);
 
-export {getRandom, getMaxLenght};
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+export {getRandom, getMaxLenght, isEscapeKey};
