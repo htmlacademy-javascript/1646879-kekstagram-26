@@ -1,2 +1,2 @@
 import './pictures.js';
-import './pictures-popup.js';
+import './big-picture.js';

@@ -1,6 +1,5 @@
-import { isEscapeKey } from './util.js';
+import { openPictureModal, closePictureModal } from './picture-modal.js';
 
-const sectionBigPicture = document.querySelector('.big-picture');
 const closeButton = document.querySelector('#picture-cancel');
 const bigPictureImg = document.querySelector('.big-picture__img img');
 const bigPictureImgCaption = document.querySelector('.social__caption');
@@ -9,39 +8,10 @@ const commentCount = document.querySelector('.comments-count');
 const commentsList = document.querySelector('.social__comments');
 const socialComment = document.querySelector('.social__comment').cloneNode(true);
 
-const addClassHidden = () => {
-  sectionBigPicture.classList.add('hidden');
-  document.body.classList.remove('modal-open');
-};
-
-const removeClassHidden = () => {
-  sectionBigPicture.classList.remove('hidden');
-  document.body.classList.add('modal-open');
-};
-
-const openPictureModal = () => {
-  removeClassHidden();
-
-  document.addEventListener('keydown', onModalEscKydown);
-};
-
-const closePictureModal = () => {
-  addClassHidden();
-
-  document.removeEventListener('keydown', onModalEscKydown);
-};
-
-function onModalEscKydown (evt) {
-  if (isEscapeKey) {
-    evt.preventDefault();
-    closePictureModal();
-  }
-}
-
-const pictureModalCloseElement = () => {
+const pictureModalCloseElement = (element) => {
   closeButton.addEventListener('click', (evt) => {
     evt.preventDefault();
-    closePictureModal();
+    closePictureModal(element);
   });
 };
 

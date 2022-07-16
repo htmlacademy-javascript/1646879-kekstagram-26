@@ -1,5 +1,5 @@
 import { getArray } from './data.js';
-import { showBigPicture } from './pictures-popup.js';
+import { showBigPicture } from './big-picture.js';
 
 const picturesSection = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
