@@ -7,11 +7,13 @@ const bigPictureImgLikes = document.querySelector('.likes-count');
 const commentCount = document.querySelector('.comments-count');
 const commentsList = document.querySelector('.social__comments');
 const socialComment = document.querySelector('.social__comment').cloneNode(true);
+const sectionBigPicture = document.querySelector('.big-picture');
 
-const pictureModalCloseElement = (element) => {
+
+const pictureModalCloseElement = (elem) => {
   closeButton.addEventListener('click', (evt) => {
     evt.preventDefault();
-    closePictureModal(element);
+    closePictureModal(elem);
   });
 };
 
@@ -40,11 +42,11 @@ const creatFillPicture = ({url, description, comments, likes}) => {
 };
 
 const showBigPicture = ({url, description, comments, likes}) => {
-  openPictureModal();
+  openPictureModal(sectionBigPicture);
 
   creatFillPicture({url, description, comments, likes});
 
-  pictureModalCloseElement();
+  pictureModalCloseElement(sectionBigPicture);
 };
 
 export {showBigPicture};
