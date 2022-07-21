@@ -15,17 +15,17 @@ const removeClassHidden = () => {
 const openPictureModal = () => {
   removeClassHidden();
 
-  document.addEventListener('keydown', onModalEscKydown);
+  document.addEventListener('keydown', onModalEscKeydown);
 };
 
 const closePictureModal = () => {
   addClassHidden();
 
-  document.removeEventListener('keydown', onModalEscKydown);
+  document.removeEventListener('keydown', onModalEscKeydown);
 };
 
-function onModalEscKydown (evt) {
-  if (isEscapeKey) {
+function onModalEscKeydown (evt) {
+  if (isEscapeKey(evt)) {
     evt.preventDefault();
     closePictureModal();
   }

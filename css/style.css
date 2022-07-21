@@ -1395,3 +1395,16 @@ main {
 .hidden {
   display: none;
 }
+
+.img-upload__field-wrapper {
+  position: relative;
+}
+
+.error__field-wrapper {
+  position: absolute;
+  top: 0;
+  right: -203px;
+  max-width: 250px;
+  padding: 2px;
+  outline: 4px solid red;
+}
