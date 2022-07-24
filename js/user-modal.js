@@ -1,5 +1,6 @@
 import { isEscapeKey } from './util.js';
 import { uploadFile, hashtagsInput, descriptionTextarea } from './user-form.js';
+import { createDataUpdate } from './picture-change.js';
 
 const uploadImgForm = document.querySelector('.img-upload__overlay');
 
@@ -24,6 +25,7 @@ const openUserModal = () => {
 
 const closeUserModal = () => {
   addClassHidden();
+  createDataUpdate();
   document.removeEventListener('keydown', onModalEscKeydown);
 };
 

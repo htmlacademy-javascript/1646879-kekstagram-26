@@ -5,7 +5,6 @@ const picturesSection = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const pictureFragment = document.createDocumentFragment();
 
-
 getArray.forEach(({url, description, comments, likes}) => {
   const pictureElement = pictureTemplate.cloneNode(true);
 
