@@ -4,8 +4,8 @@ const VALUE = 25;
 
 const MIN_AVATAR_VALUE = 1;
 const MAX_AVATAR_VALUE = 6;
-const MIN_COMMENT_VALUE = 0;
-const MAX_COMMENT_VALUE = 6;
+const MIN_COMMENT_VALUE = 1;
+const MAX_COMMENT_VALUE = 12;
 
 const MESSAGES = [
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',

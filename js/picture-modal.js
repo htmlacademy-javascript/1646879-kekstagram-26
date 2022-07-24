@@ -1,4 +1,5 @@
 import { isEscapeKey } from './util.js';
+import { commentsLoaderButton, createLoadComments } from './big-picture.js';
 
 const sectionBigPicture = document.querySelector('.big-picture');
 
@@ -28,6 +29,7 @@ function onModalEscKeydown (evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
     closePictureModal();
+    commentsLoaderButton.removeEventListener('click', createLoadComments);
   }
 }
 
