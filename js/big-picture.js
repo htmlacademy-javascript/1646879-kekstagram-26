@@ -83,7 +83,6 @@ const pictureModalCloseElement = () => {
   });
 };
 
-
 const showBigPicture = ({url, description, comments, likes}) => {
   openPictureModal();
   value = 0;
