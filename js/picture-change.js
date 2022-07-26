@@ -1,71 +1,73 @@
-const STEP_SCALE = 25;
+const DEFAULT_VALUE = 'none';
 
-const controlSmaller = document.querySelector('.scale__control--smaller');
-const controlBigger = document.querySelector('.scale__control--bigger');
-const controlValue = document.querySelector('.scale__control--value');
+const EFFECTS = {
+  chrome: {
+    values: {
+      range: {
+        min: 0,
+        max: 1,
+      },
+      start: 1,
+      step: 0.1,
+    },
+    filter: 'grayscale',
+    unit: '',
+  },
+  sepia: {
+    values: {
+      range: {
+        min: 0,
+        max: 1,
+      },
+      start: 1,
+      step: 0.1,
+    },
+    filter: 'sepia',
+    unit: '',
+  },
+  marvin: {
+    values: {
+      range: {
+        min: 0,
+        max: 100,
+      },
+      start: 100,
+      step: 1,
+    },
+    filter: 'invert',
+    unit: '%',
+  },
+  phobos: {
+    values: {
+      range: {
+        min: 0,
+        max: 3,
+      },
+      start: 3,
+      step: 0.1,
+    },
+    filter: 'blur',
+    unit: 'px',
+  },
+  heat: {
+    values: {
+      range: {
+        min: 1,
+        max: 3,
+      },
+      start: 3,
+      step: 0.1,
+    },
+    filter: 'brightness',
+    unit: '',
+  },
+};
+
 const imgPreview = document.querySelector('.img-upload__preview img');
 const slider = document.querySelector('.effect-level__slider');
 const effectsList = document.querySelector('.effects__list');
-const levelValue = document.querySelector('.effect-level__value');
-
-let key = 'none';
-let scale = 100;
-
-const EFFECTS = {
-  'none': {
-    class: 'none',
-  },
-  'chrome': {
-    class: 'effects__preview--chrome',
-    range: {
-      min: 0,
-      max: 1,
-    },
-    start: 1,
-    step: 0.1,
-    filter: 'grayscale',
-  },
-  'sepia': {
-    class: 'effects__preview--sepia',
-    range: {
-      min: 0,
-      max: 1,
-    },
-    start: 1,
-    step: 0.1,
-    filter: 'sepia',
-  },
-  'marvin': {
-    class: 'effects__preview--marvin',
-    range: {
-      min: 0,
-      max: 100,
-    },
-    start: 100,
-    step: 1,
-    filter: 'invert',
-  },
-  'phobos': {
-    class: 'effects__preview--phobos',
-    range: {
-      min: 0,
-      max: 3,
-    },
-    start: 3,
-    step: 0.1,
-    filter: 'blur',
-  },
-  'heat': {
-    class: 'effects__preview--heat',
-    range: {
-      min: 1,
-      max: 3,
-    },
-    start: 3,
-    step: 0.1,
-    filter: 'brightness',
-  },
-};
+const effectLevelValue = document.querySelector('.effect-level__value');
+// const checkedElement = document.querySelector('#effect-none');
 
 noUiSlider.create(slider, {
   range: {
@@ -84,94 +86,54 @@ noUiSlider.create(slider, {
     from: function (value) {
       return parseFloat(value);
     }
-  }
+  },
+  connect: 'lower',
 });
 
-const unactiveControlBigger = () => {
-  if (controlValue.value === '100%') {
-    controlBigger.disabled = true;
-    controlBigger.style. backgroundColor = 'rgba(0, 0, 0, 0.3)';
-  }
+const isDefault = () => {
+  imgPreview.className = '';
+  imgPreview.style = '';
+  effectLevelValue.value = '';
+  slider.classList.add('hidden');
+  // checkedElement.checked = true;
 };
 
-controlValue.value = `${scale}%`;
-unactiveControlBigger();
-slider.classList.add('hidden');
+isDefault();
 
-const createStepRange = (item) => {
+const onStepRangeCreate = (targetElement) => {
   slider.noUiSlider.on('update', () => {
-    levelValue.value = slider.noUiSlider.get();
-    imgPreview.style.filter = `${EFFECTS[key]['filter']}(${levelValue.value})`;
-    if (item.value === 'marvin') {
-      imgPreview.style.filter = `${EFFECTS[key]['filter']}(${levelValue.value}%)`;
-    }
-    if (item.value === 'phobos') {
-      imgPreview.style.filter = `${EFFECTS[key]['filter']}(${levelValue.value}px)`;
+    const filter = EFFECTS[targetElement].filter;
+    const unit = EFFECTS[targetElement].unit;
+
+    if (targetElement !== DEFAULT_VALUE) {
+      const sliderValue = slider.noUiSlider.get();
+      imgPreview.style.filter = `${filter}(${sliderValue}${unit})`;
+      effectLevelValue.value = sliderValue;
     }
   });
 };
 
-const createDataUpdate = () => {
-  scale = 100;
-  controlValue.value = '';
-  controlValue.value = `${scale}%`;
-  imgPreview.style.transform = `scale(${scale/100})`;
-  imgPreview.className = '';
-  imgPreview.style = '';
+const onFilterChange = (evt) => {
+  const targetElement = evt.target.value;
   slider.classList.add('hidden');
+
+  if (targetElement !== DEFAULT_VALUE) {
+    imgPreview.className = '';
+    slider.classList.remove('hidden');
+    imgPreview.classList.add(`effects__preview--${targetElement}`);
+    slider.noUiSlider.updateOptions(EFFECTS[targetElement].values);
+    onStepRangeCreate(targetElement);
+  }
 };
 
-effectsList.addEventListener('change', (evt) => {
-  const targetItem = evt.target;
+const activateEffects = () => {
+  effectsList.addEventListener('change', onFilterChange);
+};
 
-  if (targetItem.tagName === 'INPUT') {
-    key = targetItem.value;
-
-    createDataUpdate();
-
-    imgPreview.classList.add(EFFECTS[key]['class']);
+const deleteEffects = () => {
+  isDefault();
+  effectsList.removeEventListener('change', onFilterChange);
+};
 
 
-    if (targetItem.value === 'none') {
-      slider.classList.add('hidden');
-    } else {
-      slider.classList.remove('hidden');
-      slider.removeAttribute('disabled');
-
-      slider.noUiSlider.updateOptions({
-        range: {
-          min: EFFECTS[key]['range']['min'],
-          max: EFFECTS[key]['range']['max'],
-        },
-        start: EFFECTS[key]['start'],
-        step: EFFECTS[key]['step'],
-      });
-
-      createStepRange(targetItem);
-    }
-  }
-});
-
-controlSmaller.addEventListener('click', () => {
-  scale -= STEP_SCALE;
-  controlValue.value = `${scale}%`;
-  controlBigger.disabled = false;
-  controlBigger.style. backgroundColor = 'rgba(0, 0, 0, 0.6)';
-  imgPreview.style.transform = `scale(${scale/100})`;
-
-  if (controlValue.value === '25%') {
-    controlSmaller.disabled = true;
-    controlSmaller.style. backgroundColor = 'rgba(0, 0, 0, 0.3)';
-  }
-});
-
-controlBigger.addEventListener('click', () => {
-  scale += STEP_SCALE;
-  controlValue.value = `${scale}%`;
-  controlSmaller.disabled = false;
-  controlSmaller.style. backgroundColor = 'rgba(0, 0, 0, 0.6)';
-  imgPreview.style.transform = `scale(${scale/100})`;
-  unactiveControlBigger();
-});
-
-export {createDataUpdate};
+export {deleteEffects, activateEffects, imgPreview};

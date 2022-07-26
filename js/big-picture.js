@@ -41,7 +41,7 @@ const createLoadComments = () => {
   } else
   if (endIndex >= photoComments.length) {
     commentsLoaderButton.classList.add('hidden');
-    socialCommentCount.textContent = 'всё';
+    socialCommentCount.textContent = 'все комментарии показаны';
   }
 
   value++;
