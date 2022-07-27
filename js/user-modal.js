@@ -1,16 +1,14 @@
 import { isEscapeKey } from './util.js';
-import { uploadFile, hashtagsInput, descriptionTextarea } from './user-form.js';
-import { deleteEffects, activateEffects } from './picture-change.js';
-import { onScaleReload } from './picture-scale.js';
+import { deleteFormData } from './form-validator.js';
+import { deleteEffects, activateEffects } from './picture-effect.js';
+import { useDefaultScale } from './picture-scale.js';
+
 
 const uploadImgForm = document.querySelector('.img-upload__overlay');
 
 const addClassHidden = () => {
   uploadImgForm.classList.add('hidden');
   document.body.classList.remove('modal-open');
-  uploadFile.value = '';
-  hashtagsInput.value = '';
-  descriptionTextarea.value = '';
 };
 
 const removeClassHidden = () => {
@@ -20,13 +18,14 @@ const removeClassHidden = () => {
 
 const openUserModal = () => {
   removeClassHidden();
-  onScaleReload();
   activateEffects();
+  useDefaultScale();
   document.addEventListener('keydown', onModalEscKeydown);
 };
 
 const closeUserModal = () => {
   addClassHidden();
+  deleteFormData();
   deleteEffects();
   document.removeEventListener('keydown', onModalEscKeydown);
 };

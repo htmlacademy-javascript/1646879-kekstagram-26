@@ -67,7 +67,7 @@ const imgPreview = document.querySelector('.img-upload__preview img');
 const slider = document.querySelector('.effect-level__slider');
 const effectsList = document.querySelector('.effects__list');
 const effectLevelValue = document.querySelector('.effect-level__value');
-// const checkedElement = document.querySelector('#effect-none');
+const checkedElement = document.querySelector('#effect-none');
 
 noUiSlider.create(slider, {
   range: {
@@ -90,15 +90,15 @@ noUiSlider.create(slider, {
   connect: 'lower',
 });
 
-const isDefault = () => {
+const useDefaultEffect = () => {
   imgPreview.className = '';
   imgPreview.style = '';
   effectLevelValue.value = '';
   slider.classList.add('hidden');
-  // checkedElement.checked = true;
+  checkedElement.checked = true;
 };
 
-isDefault();
+useDefaultEffect();
 
 const onStepRangeCreate = (targetElement) => {
   slider.noUiSlider.on('update', () => {
@@ -127,11 +127,11 @@ const onFilterChange = (evt) => {
 };
 
 const activateEffects = () => {
+  useDefaultEffect();
   effectsList.addEventListener('change', onFilterChange);
 };
 
 const deleteEffects = () => {
-  isDefault();
   effectsList.removeEventListener('change', onFilterChange);
 };
 

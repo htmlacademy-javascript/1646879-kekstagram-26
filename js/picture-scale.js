@@ -1,4 +1,4 @@
-import {imgPreview} from './picture-change.js';
+import {imgPreview} from './picture-effect.js';
 
 const STEP_SCALE = 25;
 
@@ -8,7 +8,7 @@ const controlValue = document.querySelector('.scale__control--value');
 
 let scale;
 
-const onScaleReload = () => {
+const useDefaultScale = () => {
   scale = 100;
   controlValue.value = '100%';
   controlBigger.disabled = true;
@@ -37,8 +37,8 @@ controlBigger.addEventListener('click', () => {
   imgPreview.style.transform = `scale(${scale/100})`;
 
   if (controlValue.value === '100%') {
-    onScaleReload();
+    useDefaultScale();
   }
 });
 
-export {onScaleReload};
+export {useDefaultScale};
