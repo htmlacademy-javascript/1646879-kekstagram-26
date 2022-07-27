@@ -1,4 +1,5 @@
 import {openUserModal, closeUserModal} from './user-modal.js';
+import {sendData} from './api.js';
 
 const uploadFile = document.querySelector('#upload-file');
 const uploadCancel = document.querySelector('#upload-cancel');
@@ -23,10 +24,11 @@ pristine.addValidator(hashtagsInput, (value) => value === '' || hashtags(value).
 pristine.addValidator(hashtagsInput, (value) => hashtags(value).length === new Set(hashtags(value)).size, 'Хэш-теги нечувствительны к регистру. Один и тот же хэш-тег не может быть использован дважды.');
 pristine.addValidator(descriptionTextarea, descriptionValidate, 'Максимальная длина сообщения 140 символов');
 
-
-form.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-});
+const deleteFormData = () => {
+  uploadFile.value = '';
+  hashtagsInput.value = '';
+  descriptionTextarea.value = '';
+};
 
 const userFormCloseElement = () => {
   uploadCancel.addEventListener('click', (evt) => {
@@ -35,12 +37,29 @@ const userFormCloseElement = () => {
   });
 };
 
-uploadFile.addEventListener('change', () => {
-  const uploadValue = uploadFile.value;
-  if (uploadValue !== '') {
-    openUserModal();
-  }
-  userFormCloseElement();
-});
+const onUserFormOpen = () => {
+  uploadFile.addEventListener('change', () => {
+    const uploadValue = uploadFile.value;
+    if (uploadValue !== '') {
+      openUserModal();
+    }
+    userFormCloseElement();
+  });
+};
 
-export {uploadFile, hashtagsInput, descriptionTextarea};
+onUserFormOpen();
+
+const setUserFormSubmit = (onSuccess) => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const isValid = pristine.validate();
+    if (isValid) {
+      sendData(
+        onSuccess,
+        new FormData(evt.target));
+    }
+  });
+};
+
+export {setUserFormSubmit, deleteFormData};
