@@ -1,12 +1,14 @@
 import './big-picture.js';
 import './picture-effect.js';
-import {renderPictures} from './pictures.js';
-// import './form-validator.js';
-import {setUserFormSubmit} from './form-validator.js';
+import {renderPictures, onPicturesFilters} from './pictures.js';
+import {setUserFormSubmit} from './form.js';
 import {getData} from './api.js';
-import {closeUserModal} from './user-modal.js';
+import {dataErrorPopup} from './popup.js';
 
 
-getData(renderPictures);
-setUserFormSubmit(closeUserModal);
+getData((pictures) => {
+  renderPictures(pictures);
+  onPicturesFilters(pictures, (data) => renderPictures(data));
+}, dataErrorPopup);
+setUserFormSubmit();
 

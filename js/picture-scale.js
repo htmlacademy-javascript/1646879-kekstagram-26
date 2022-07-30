@@ -1,42 +1,45 @@
-import {imgPreview} from './picture-effect.js';
+import {imgPreviewElement} from './form.js';
 
 const STEP_SCALE = 25;
+const MAX_SCALE = 100;
+const MIN_SCALE = 25;
+const VALUE = 100;
 
-const controlSmaller = document.querySelector('.scale__control--smaller');
-const controlBigger = document.querySelector('.scale__control--bigger');
-const controlValue = document.querySelector('.scale__control--value');
+const controlSmallerElement = document.querySelector('.scale__control--smaller');
+const controlBiggerElement = document.querySelector('.scale__control--bigger');
+const controlValueElement = document.querySelector('.scale__control--value');
 
 let scale;
 
 const useDefaultScale = () => {
   scale = 100;
-  controlValue.value = '100%';
-  controlBigger.disabled = true;
-  imgPreview.style.transform = '';
-  controlBigger.style. backgroundColor = 'rgba(0, 0, 0, 0.3)';
+  controlValueElement.value = `${MAX_SCALE}%`;
+  controlBiggerElement.disabled = true;
+  imgPreviewElement.style.transform = '';
+  controlBiggerElement.style. backgroundColor = 'rgba(0, 0, 0, 0.3)';
 };
 
-controlSmaller.addEventListener('click', () => {
+controlSmallerElement.addEventListener('click', () => {
   scale -= STEP_SCALE;
-  controlValue.value = `${scale}%`;
-  controlBigger.disabled = false;
-  controlBigger.style. backgroundColor = 'rgba(0, 0, 0, 0.6)';
-  imgPreview.style.transform = `scale(${scale/100})`;
+  controlValueElement.value = `${scale}%`;
+  controlBiggerElement.disabled = false;
+  controlBiggerElement.style. backgroundColor = 'rgba(0, 0, 0, 0.6)';
+  imgPreviewElement.style.transform = `scale(${scale/VALUE})`;
 
-  if (controlValue.value === '25%') {
-    controlSmaller.disabled = true;
-    controlSmaller.style. backgroundColor = 'rgba(0, 0, 0, 0.3)';
+  if (controlValueElement.value === `${MIN_SCALE}%`) {
+    controlSmallerElement.disabled = true;
+    controlSmallerElement.style. backgroundColor = 'rgba(0, 0, 0, 0.3)';
   }
 });
 
-controlBigger.addEventListener('click', () => {
+controlBiggerElement.addEventListener('click', () => {
   scale += STEP_SCALE;
-  controlValue.value = `${scale}%`;
-  controlSmaller.disabled = false;
-  controlSmaller.style. backgroundColor = 'rgba(0, 0, 0, 0.6)';
-  imgPreview.style.transform = `scale(${scale/100})`;
+  controlValueElement.value = `${scale}%`;
+  controlSmallerElement.disabled = false;
+  controlSmallerElement.style. backgroundColor = 'rgba(0, 0, 0, 0.6)';
+  imgPreviewElement.style.transform = `scale(${scale/VALUE})`;
 
-  if (controlValue.value === '100%') {
+  if (controlValueElement.value === `${MAX_SCALE}%`) {
     useDefaultScale();
   }
 });

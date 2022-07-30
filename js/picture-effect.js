@@ -1,3 +1,5 @@
+import { imgPreviewElement } from './form.js';
+
 const DEFAULT_VALUE = 'none';
 
 const EFFECTS = {
@@ -62,14 +64,12 @@ const EFFECTS = {
     unit: '',
   },
 };
-
-const imgPreview = document.querySelector('.img-upload__preview img');
-const slider = document.querySelector('.effect-level__slider');
-const effectsList = document.querySelector('.effects__list');
-const effectLevelValue = document.querySelector('.effect-level__value');
+const sliderElement = document.querySelector('.effect-level__slider');
+const effectsListElement = document.querySelector('.effects__list');
+const effectLevelValueElement = document.querySelector('.effect-level__value');
 const checkedElement = document.querySelector('#effect-none');
 
-noUiSlider.create(slider, {
+noUiSlider.create(sliderElement, {
   range: {
     min: 0,
     max: 0,
@@ -91,49 +91,44 @@ noUiSlider.create(slider, {
 });
 
 const useDefaultEffect = () => {
-  imgPreview.className = '';
-  imgPreview.style = '';
-  effectLevelValue.value = '';
-  slider.classList.add('hidden');
+  imgPreviewElement.className = '';
+  imgPreviewElement.style = '';
+  effectLevelValueElement.value = '';
+  sliderElement.classList.add('hidden');
   checkedElement.checked = true;
 };
 
-useDefaultEffect();
 
 const onStepRangeCreate = (targetElement) => {
-  slider.noUiSlider.on('update', () => {
+  sliderElement.noUiSlider.on('update', () => {
     const filter = EFFECTS[targetElement].filter;
     const unit = EFFECTS[targetElement].unit;
 
     if (targetElement !== DEFAULT_VALUE) {
-      const sliderValue = slider.noUiSlider.get();
-      imgPreview.style.filter = `${filter}(${sliderValue}${unit})`;
-      effectLevelValue.value = sliderValue;
+      const sliderValue = sliderElement.noUiSlider.get();
+      imgPreviewElement.style.filter = `${filter}(${sliderValue}${unit})`;
+      effectLevelValueElement.value = sliderValue;
     }
   });
 };
 
 const onFilterChange = (evt) => {
   const targetElement = evt.target.value;
-  slider.classList.add('hidden');
+  sliderElement.classList.add('hidden');
+  imgPreviewElement.className = '';
+  imgPreviewElement.style.filter = '';
 
   if (targetElement !== DEFAULT_VALUE) {
-    imgPreview.className = '';
-    slider.classList.remove('hidden');
-    imgPreview.classList.add(`effects__preview--${targetElement}`);
-    slider.noUiSlider.updateOptions(EFFECTS[targetElement].values);
+    sliderElement.classList.remove('hidden');
+    imgPreviewElement.classList.add(`effects__preview--${targetElement}`);
+    sliderElement.noUiSlider.updateOptions(EFFECTS[targetElement].values);
     onStepRangeCreate(targetElement);
   }
 };
 
 const activateEffects = () => {
   useDefaultEffect();
-  effectsList.addEventListener('change', onFilterChange);
+  effectsListElement.addEventListener('change', onFilterChange);
 };
 
-const deleteEffects = () => {
-  effectsList.removeEventListener('change', onFilterChange);
-};
-
-
-export {deleteEffects, activateEffects, imgPreview};
+export {activateEffects};
