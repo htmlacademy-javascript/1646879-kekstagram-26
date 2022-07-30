@@ -1,20 +1,26 @@
-const getData = (onSuccess) => {
-  fetch('https://26.javascript.pages.academy/kekstagram/data')
+import { getFilter } from './pictures.js';
+
+const API_URL = 'https://26.javascript.pages.academy/kekstagram';
+const ERROR_TEXT = 'Нет связи с сервером';
+
+const getData = (onSuccess, onError) => {
+  fetch(`${API_URL}/data`)
     .then((response) => {
       if (response.ok) {
         return response;
       }
-      throw new Error(`${response.status} — ${response.statusText}`);
+      onError(`${ERROR_TEXT}`);
     })
     .then((response) => response.json())
     .then((pictures) => {
+      getFilter();
       onSuccess(pictures);
     })
-    .catch((error) => error);
+    .catch(() => onError(`${ERROR_TEXT}`));
 };
 
-const sendData = (success, formData) => {
-  fetch('https://26.javascript.pages.academy/kekstagram',
+const sendData = (onSuccess, formData, onError) => {
+  fetch(API_URL,
     {
       method: 'POST',
       body: formData,
@@ -22,12 +28,12 @@ const sendData = (success, formData) => {
   )
     .then((response) => {
       if (response.ok) {
-        success();
+        onSuccess();
       } else {
-        throw new Error('Данные не валидны');
+        onError();
       }
     })
-    .catch((error) => error);
+    .catch(() => onError());
 };
 
 export {getData, sendData};
